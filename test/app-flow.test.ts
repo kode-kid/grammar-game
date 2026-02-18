@@ -2,6 +2,22 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { buildServer } from "../src/app.js";
 
+test("root route serves browser game index page", async (t) => {
+  const app = await buildServer();
+  t.after(async () => {
+    await app.close();
+  });
+
+  const response = await app.inject({
+    method: "GET",
+    url: "/"
+  });
+
+  assert.equal(response.statusCode, 200);
+  assert.match(String(response.headers["content-type"]), /text\/html/i);
+  assert.match(response.body, /Portuguese Verb Battle/);
+});
+
 test("challenge flow resolves into deal damage on correct conjugation", async (t) => {
   const app = await buildServer();
   t.after(async () => {

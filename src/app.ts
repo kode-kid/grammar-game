@@ -1,4 +1,6 @@
 import cors from "@fastify/cors";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import Fastify, { type FastifyInstance } from "fastify";
 import { AppError } from "./errors.js";
 import { BattleService } from "./services/battle-service.js";
@@ -123,6 +125,12 @@ export async function buildServer(): Promise<FastifyInstance> {
   const lexiconService = new LexiconService();
   await lexiconService.initialize();
   const battleService = new BattleService(lexiconService);
+  const indexPath = path.resolve(process.cwd(), "public", "index.html");
+  const indexHtml = await readFile(indexPath, "utf8");
+
+  app.get("/", async (_request, reply) => {
+    reply.type("text/html; charset=utf-8").send(indexHtml);
+  });
 
   app.get("/api/health", async () => {
     return {

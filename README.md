@@ -23,6 +23,10 @@ npm run dev
 
 Server defaults to `http://localhost:3000`.
 
+The browser game page is served at:
+
+- `http://localhost:3000/`
+
 Production build:
 
 ```bash
@@ -35,6 +39,29 @@ Run tests:
 ```bash
 npm test
 ```
+
+## Play from a browser (Safari)
+
+### If you run backend on your Mac
+
+1. Start server:
+   ```bash
+   npm run dev
+   ```
+2. Open Safari.
+3. Visit:
+   - `http://localhost:3000/`
+
+### If backend runs on another machine/server
+
+1. Find that machine IP (example: `192.168.1.55`) and ensure port `3000` is reachable.
+2. Run backend with host binding (already defaults to `0.0.0.0` in this project):
+   ```bash
+   npm run dev
+   ```
+3. In Safari, open:
+   - `http://<server-ip>:3000/`
+   - example: `http://192.168.1.55:3000/`
 
 ## Data model
 
