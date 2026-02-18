@@ -1,0 +1,138 @@
+[
+  {
+    "infinitive": "falar",
+    "translation": "to speak"
+  },
+  {
+    "infinitive": "estudar",
+    "translation": "to study"
+  },
+  {
+    "infinitive": "comer",
+    "translation": "to eat"
+  },
+  {
+    "infinitive": "beber",
+    "translation": "to drink"
+  },
+  {
+    "infinitive": "abrir",
+    "translation": "to open"
+  },
+  {
+    "infinitive": "partir",
+    "translation": "to leave/depart"
+  },
+  {
+    "infinitive": "ser",
+    "translation": "to be",
+    "irregular": {
+      "present_indicative": {
+        "eu": "sou",
+        "tu": "és",
+        "voce": "é",
+        "nos": "somos",
+        "voces": "são",
+        "eles": "são"
+      },
+      "preterite_perfect": {
+        "eu": "fui",
+        "tu": "foste",
+        "voce": "foi",
+        "nos": "fomos",
+        "voces": "foram",
+        "eles": "foram"
+      },
+      "imperfect_indicative": {
+        "eu": "era",
+        "tu": "eras",
+        "voce": "era",
+        "nos": "éramos",
+        "voces": "eram",
+        "eles": "eram"
+      }
+    }
+  },
+  {
+    "infinitive": "ter",
+    "translation": "to have",
+    "irregular": {
+      "present_indicative": {
+        "eu": "tenho",
+        "tu": "tens",
+        "voce": "tem",
+        "nos": "temos",
+        "voces": "têm",
+        "eles": "têm"
+      },
+      "preterite_perfect": {
+        "eu": "tive",
+        "tu": "tiveste",
+        "voce": "teve",
+        "nos": "tivemos",
+        "voces": "tiveram",
+        "eles": "tiveram"
+      },
+      "imperfect_indicative": {
+        "eu": "tinha",
+        "tu": "tinhas",
+        "voce": "tinha",
+        "nos": "tínhamos",
+        "voces": "tinham",
+        "eles": "tinham"
+      }
+    }
+  },
+  {
+    "infinitive": "ir",
+    "translation": "to go",
+    "irregular": {
+      "present_indicative": {
+        "eu": "vou",
+        "tu": "vais",
+        "voce": "vai",
+        "nos": "vamos",
+        "voces": "vão",
+        "eles": "vão"
+      },
+      "preterite_perfect": {
+        "eu": "fui",
+        "tu": "foste",
+        "voce": "foi",
+        "nos": "fomos",
+        "voces": "foram",
+        "eles": "foram"
+      }
+    }
+  },
+  {
+    "infinitive": "poder",
+    "translation": "to be able to",
+    "irregular": {
+      "present_indicative": {
+        "eu": "posso"
+      }
+    }
+  },
+  {
+    "infinitive": "fazer",
+    "translation": "to do/make",
+    "stems": {
+      "future_simple": "far"
+    },
+    "irregular": {
+      "present_indicative": {
+        "eu": "faço",
+        "voce": "faz"
+      },
+      "preterite_perfect": {
+        "eu": "fiz",
+        "tu": "fizeste",
+        "voce": "fez",
+        "nos": "fizemos",
+        "voces": "fizeram",
+        "eles": "fizeram"
+      }
+    }
+  }
+]
