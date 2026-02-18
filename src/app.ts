@@ -109,6 +109,13 @@ const addTenseBodySchema = {
   }
 } as const;
 
+function toErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+}
+
 export async function buildServer(): Promise<FastifyInstance> {
   const app = Fastify({ logger: true });
   await app.register(cors, { origin: true });
@@ -214,7 +221,7 @@ export async function buildServer(): Promise<FastifyInstance> {
     }
 
     if ((error as { validation?: unknown }).validation) {
-      reply.code(400).send({ error: error.message });
+      reply.code(400).send({ error: toErrorMessage(error) });
       return;
     }
 
