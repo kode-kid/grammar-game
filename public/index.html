@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portuguese Verb Battle</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0f172a;
+        --panel: #111827;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --good: #22c55e;
+        --bad: #ef4444;
+        --accent: #3b82f6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+          sans-serif;
+        background: radial-gradient(circle at top right, #1e293b 0%, var(--bg) 55%);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px;
+      }
+
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+        display: grid;
+        gap: 16px;
+      }
+
+      .panel {
+        background: #0b1220;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 14px;
+        padding: 16px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.7rem;
+      }
+
+      p {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .chip {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(59, 130, 246, 0.17);
+        border: 1px solid rgba(59, 130, 246, 0.32);
+        font-weight: 600;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+      }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 0.9rem;
+      }
+
+      select,
+      input,
+      button {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(2, 6, 23, 0.65);
+        color: var(--text);
+        padding: 10px 12px;
+        font-size: 0.96rem;
+      }
+
+      button {
+        cursor: pointer;
+        border-color: rgba(59, 130, 246, 0.65);
+        background: rgba(59, 130, 246, 0.24);
+        font-weight: 700;
+      }
+
+      button:hover {
+        background: rgba(59, 130, 246, 0.34);
+      }
+
+      button:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .button-row > button {
+        flex: 1;
+      }
+
+      .challenge-box {
+        min-height: 74px;
+        border: 1px dashed rgba(148, 163, 184, 0.45);
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 12px;
+        display: grid;
+        gap: 5px;
+      }
+
+      .challenge-title {
+        font-weight: 700;
+      }
+
+      .result {
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 10px;
+        border: 1px solid transparent;
+      }
+
+      .result.good {
+        color: #d1fae5;
+        background: rgba(34, 197, 94, 0.17);
+        border-color: rgba(34, 197, 94, 0.38);
+      }
+
+      .result.bad {
+        color: #fee2e2;
+        background: rgba(239, 68, 68, 0.17);
+        border-color: rgba(239, 68, 68, 0.38);
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <h1>Portuguese Verb Battle</h1>
+        <p>
+          Conjugate correctly to deal damage. Wrong conjugations mitigate damage and make the
+          enemy harder to finish.
+        </p>
+        <div class="stats">
+          <div class="chip">Enemy HP: <span id="enemyHp">100</span></div>
+          <div class="chip">Shield gained: <span id="shieldPoints">0</span></div>
+          <div class="chip">Round: <span id="roundCount">1</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Challenge Setup</h2>
+        <div class="form-grid">
+          <label>
+            Target Scope
+            <select id="targetScope">
+              <option value="single">single</option>
+              <option value="plural">plural</option>
+            </select>
+          </label>
+          <label>
+            Verb (optional)
+            <select id="verbInfinitive"></select>
+          </label>
+          <label>
+            Tense (optional)
+            <select id="tenseId"></select>
+          </label>
+          <label>
+            Pronoun (optional)
+            <select id="pronounId"></select>
+          </label>
+          <label>
+            Base Damage
+            <input id="baseDamage" type="number" min="1" max="500" value="20" />
+          </label>
+        </div>
+        <div class="button-row">
+          <button id="newChallengeBtn">Get Challenge</button>
+          <button id="resetBtn">Reset Battle</button>
+        </div>
+
+        <div id="challengeBox" class="challenge-box">
+          <span class="muted">No challenge loaded yet. Click "Get Challenge".</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Answer</h2>
+        <label>
+          Conjugated verb
+          <input id="answer" type="text" placeholder="Type your conjugation here" />
+        </label>
+        <div class="button-row">
+          <button id="submitBtn" disabled>Submit Attack</button>
+        </div>
+        <div id="resultBox"></div>
+      </section>
+    </main>
+
+    <script>
+      const enemyHpEl = document.getElementById("enemyHp");
+      const shieldPointsEl = document.getElementById("shieldPoints");
+      const roundCountEl = document.getElementById("roundCount");
+      const targetScopeEl = document.getElementById("targetScope");
+      const verbInfinitiveEl = document.getElementById("verbInfinitive");
+      const tenseIdEl = document.getElementById("tenseId");
+      const pronounIdEl = document.getElementById("pronounId");
+      const baseDamageEl = document.getElementById("baseDamage");
+      const newChallengeBtn = document.getElementById("newChallengeBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const challengeBox = document.getElementById("challengeBox");
+      const answerEl = document.getElementById("answer");
+      const submitBtn = document.getElementById("submitBtn");
+      const resultBox = document.getElementById("resultBox");
+
+      const state = {
+        reference: null,
+        challenge: null,
+        enemyHp: 100,
+        shieldPoints: 0,
+        roundCount: 1
+      };
+
+      function createOption(value, text) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = text;
+        return option;
+      }
+
+      function readErrorMessage(error) {
+        if (error && typeof error === "object" && "message" in error) {
+          return String(error.message);
+        }
+        return String(error);
+      }
+
+      function clearElement(el) {
+        while (el.firstChild) {
+          el.removeChild(el.firstChild);
+        }
+      }
+
+      function updateStats() {
+        enemyHpEl.textContent = String(state.enemyHp);
+        shieldPointsEl.textContent = String(state.shieldPoints);
+        roundCountEl.textContent = String(state.roundCount);
+      }
+
+      function setResult(message, mode) {
+        clearElement(resultBox);
+        if (!message) {
+          return;
+        }
+        const result = document.createElement("div");
+        result.className = "result " + mode;
+        result.textContent = message;
+        resultBox.appendChild(result);
+      }
+
+      function renderChallenge(challenge) {
+        clearElement(challengeBox);
+        if (!challenge) {
+          const text = document.createElement("span");
+          text.className = "muted";
+          text.textContent = 'No challenge loaded yet. Click "Get Challenge".';
+          challengeBox.appendChild(text);
+          submitBtn.disabled = true;
+          return;
+        }
+
+        const line1 = document.createElement("div");
+        line1.className = "challenge-title";
+        line1.textContent = challenge.prompt;
+
+        const line2 = document.createElement("div");
+        line2.textContent =
+          "Scope: " +
+          challenge.targetScope +
+          " | Pronoun: " +
+          challenge.pronoun.label +
+          " | Tense: " +
+          challenge.tense.label;
+
+        const line3 = document.createElement("div");
+        line3.className = "muted";
+        line3.textContent = "Verb hint: " + challenge.verb.infinitive + " = " + challenge.verb.translation;
+
+        challengeBox.appendChild(line1);
+        challengeBox.appendChild(line2);
+        challengeBox.appendChild(line3);
+        submitBtn.disabled = false;
+      }
+
+      function populateSelects(reference) {
+        clearElement(verbInfinitiveEl);
+        clearElement(tenseIdEl);
+        clearElement(pronounIdEl);
+
+        verbInfinitiveEl.appendChild(createOption("", "Random verb"));
+        tenseIdEl.appendChild(createOption("", "Random tense"));
+        pronounIdEl.appendChild(createOption("", "Auto-pronoun by scope"));
+
+        for (const verb of reference.verbs) {
+          verbInfinitiveEl.appendChild(
+            createOption(verb.infinitive, verb.infinitive + " (" + verb.translation + ")")
+          );
+        }
+
+        for (const tense of reference.tenses) {
+          tenseIdEl.appendChild(createOption(tense.id, tense.label));
+        }
+
+        const filteredPronouns = reference.pronouns.filter((pronoun) => {
+          const wanted = targetScopeEl.value === "single" ? "singular" : "plural";
+          return pronoun.number === wanted;
+        });
+
+        for (const pronoun of filteredPronouns) {
+          pronounIdEl.appendChild(createOption(pronoun.id, pronoun.label));
+        }
+      }
+
+      async function loadReference() {
+        const response = await fetch("/api/reference");
+        if (!response.ok) {
+          throw new Error("Failed to load game reference data.");
+        }
+        state.reference = await response.json();
+        populateSelects(state.reference);
+      }
+
+      async function getChallenge() {
+        if (!state.reference) {
+          await loadReference();
+        }
+
+        const params = new URLSearchParams();
+        params.set("targetScope", targetScopeEl.value);
+        if (verbInfinitiveEl.value) {
+          params.set("verbInfinitive", verbInfinitiveEl.value);
+        }
+        if (tenseIdEl.value) {
+          params.set("tenseId", tenseIdEl.value);
+        }
+        if (pronounIdEl.value) {
+          params.set("pronounId", pronounIdEl.value);
+        }
+
+        const response = await fetch("/api/challenges/next?" + params.toString());
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || "Could not create challenge.");
+        }
+
+        state.challenge = payload;
+        answerEl.value = "";
+        setResult("", "good");
+        renderChallenge(state.challenge);
+        answerEl.focus();
+      }
+
+      async function submitAnswer() {
+        if (!state.challenge) {
+          throw new Error("Create a challenge first.");
+        }
+        const answer = answerEl.value.trim();
+        if (!answer) {
+          throw new Error("Type an answer before submitting.");
+        }
+
+        const baseDamage = Number(baseDamageEl.value);
+        if (!Number.isFinite(baseDamage) || baseDamage <= 0) {
+          throw new Error("Base damage must be a positive number.");
+        }
+
+        const response = await fetch("/api/battle/resolve", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            challengeId: state.challenge.challengeId,
+            answer,
+            baseDamage
+          })
+        });
+
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || "Could not resolve challenge.");
+        }
+
+        if (payload.outcome === "deal") {
+          state.enemyHp = Math.max(0, state.enemyHp - payload.damage.dealt);
+          setResult(
+            "Correct! You dealt " +
+              payload.damage.dealt +
+              " damage. Accepted: " +
+              payload.acceptedVariants.join(", "),
+            "good"
+          );
+        } else {
+          state.shieldPoints += payload.damage.mitigated;
+          setResult(
+            "Not quite. You mitigated " +
+              payload.damage.mitigated +
+              " damage instead. Expected: " +
+              payload.expected,
+            "bad"
+          );
+        }
+
+        if (state.enemyHp === 0) {
+          setResult("Victory! Enemy HP reached 0. Click Reset Battle to play again.", "good");
+        }
+
+        state.challenge = null;
+        state.roundCount += 1;
+        updateStats();
+        renderChallenge(null);
+      }
+
+      function resetBattle() {
+        state.enemyHp = 100;
+        state.shieldPoints = 0;
+        state.roundCount = 1;
+        state.challenge = null;
+        updateStats();
+        setResult("", "good");
+        renderChallenge(null);
+      }
+
+      targetScopeEl.addEventListener("change", () => {
+        if (state.reference) {
+          populateSelects(state.reference);
+        }
+      });
+
+      newChallengeBtn.addEventListener("click", async () => {
+        try {
+          await getChallenge();
+        } catch (error) {
+          setResult(readErrorMessage(error), "bad");
+        }
+      });
+
+      submitBtn.addEventListener("click", async () => {
+        try {
+          await submitAnswer();
+        } catch (error) {
+          setResult(readErrorMessage(error), "bad");
+        }
+      });
+
+      answerEl.addEventListener("keydown", async (event) => {
+        if (event.key === "Enter" && !submitBtn.disabled) {
+          event.preventDefault();
+          try {
+            await submitAnswer();
+          } catch (error) {
+            setResult(readErrorMessage(error), "bad");
+          }
+        }
+      });
+
+      resetBtn.addEventListener("click", () => {
+        resetBattle();
+      });
+
+      (async function bootstrap() {
+        try {
+          await loadReference();
+          updateStats();
+          renderChallenge(null);
+        } catch (error) {
+          setResult(readErrorMessage(error), "bad");
+        }
+      })();
+    </script>
+  </body>
+</html>

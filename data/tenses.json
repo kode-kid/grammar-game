@@ -1,0 +1,134 @@
+[
+  {
+    "id": "present_indicative",
+    "label": "Presente do Indicativo",
+    "description": "Actions happening now or habitual actions.",
+    "base": "stem",
+    "difficulty": 1,
+    "regularEndings": {
+      "ar": {
+        "eu": "o",
+        "tu": "as",
+        "voce": "a",
+        "nos": "amos",
+        "voces": "am",
+        "eles": "am"
+      },
+      "er": {
+        "eu": "o",
+        "tu": "es",
+        "voce": "e",
+        "nos": "emos",
+        "voces": "em",
+        "eles": "em"
+      },
+      "ir": {
+        "eu": "o",
+        "tu": "es",
+        "voce": "e",
+        "nos": "imos",
+        "voces": "em",
+        "eles": "em"
+      }
+    }
+  },
+  {
+    "id": "preterite_perfect",
+    "label": "Pretérito Perfeito",
+    "description": "Completed actions in the past.",
+    "base": "stem",
+    "difficulty": 1.2,
+    "regularEndings": {
+      "ar": {
+        "eu": "ei",
+        "tu": "aste",
+        "voce": "ou",
+        "nos": "amos",
+        "voces": "aram",
+        "eles": "aram"
+      },
+      "er": {
+        "eu": "i",
+        "tu": "este",
+        "voce": "eu",
+        "nos": "emos",
+        "voces": "eram",
+        "eles": "eram"
+      },
+      "ir": {
+        "eu": "i",
+        "tu": "iste",
+        "voce": "iu",
+        "nos": "imos",
+        "voces": "iram",
+        "eles": "iram"
+      }
+    }
+  },
+  {
+    "id": "imperfect_indicative",
+    "label": "Pretérito Imperfeito",
+    "description": "Ongoing or repeated actions in the past.",
+    "base": "stem",
+    "difficulty": 1.1,
+    "regularEndings": {
+      "ar": {
+        "eu": "ava",
+        "tu": "avas",
+        "voce": "ava",
+        "nos": "ávamos",
+        "voces": "avam",
+        "eles": "avam"
+      },
+      "er": {
+        "eu": "ia",
+        "tu": "ias",
+        "voce": "ia",
+        "nos": "íamos",
+        "voces": "iam",
+        "eles": "iam"
+      },
+      "ir": {
+        "eu": "ia",
+        "tu": "ias",
+        "voce": "ia",
+        "nos": "íamos",
+        "voces": "iam",
+        "eles": "iam"
+      }
+    }
+  },
+  {
+    "id": "future_simple",
+    "label": "Futuro do Presente",
+    "description": "Actions that will happen in the future.",
+    "base": "infinitive",
+    "difficulty": 1.3,
+    "regularEndings": {
+      "ar": {
+        "eu": "ei",
+        "tu": "ás",
+        "voce": "á",
+        "nos": "emos",
+        "voces": "ão",
+        "eles": "ão"
+      },
+      "er": {
+        "eu": "ei",
+        "tu": "ás",
+        "voce": "á",
+        "nos": "emos",
+        "voces": "ão",
+        "eles": "ão"
+      },
+      "ir": {
+        "eu": "ei",
+        "tu": "ás",
+        "voce": "á",
+        "nos": "emos",
+        "voces": "ão",
+        "eles": "ão"
+      }
+    }
+  }
+]
